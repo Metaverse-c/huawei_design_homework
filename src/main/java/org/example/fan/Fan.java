@@ -1,6 +1,11 @@
-package org.example;
+package org.example.fan;
+import org.example.utils.FanCtlConfig;
+import org.example.utils.SrvCtlConfig;
+import org.example.srv.SrvFactory;
+import org.example.srv.InSrv;
+
 import java.util.ArrayList;
-public class Fan implements InFan,SrvListener{
+public class Fan implements InFan, SrvListener {
     private int slot;
     private int comtypes;
     private int speedmode;
@@ -14,7 +19,7 @@ public class Fan implements InFan,SrvListener{
         srvs=new ArrayList<InSrv>();
         ArrayList<SrvCtlConfig> temp=cfg.getSrvs();
         for(SrvCtlConfig conf:temp){
-            InSrv a=SrvFactory.getInstance().getSrv(conf);
+            InSrv a= SrvFactory.getInstance().getSrv(conf);
             a.addListener(this);
             srvs.add(a);
         }

@@ -1,4 +1,5 @@
-package org.example;
+package org.example.utils;
+
 import java.util.ArrayList;
 public class FanCtlConfig {
     private int slot;

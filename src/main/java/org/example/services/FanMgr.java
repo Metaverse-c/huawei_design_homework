@@ -1,4 +1,9 @@
-package org.example;
+package org.example.services;
+import org.example.fan.FanFactory;
+import org.example.fan.InFan;
+import org.example.srv.InSrv;
+import org.example.utils.FanCtlConfig;
+
 import java.util.ArrayList;
 public class FanMgr implements InFanMgr{
     private static FanMgr instance=new FanMgr();

@@ -1,5 +1,8 @@
 package org.example;
 
+import org.example.services.FanCtlAction;
+import org.example.utils.FanCtlConfig;
+
 public class Main {
     public static void main(String[] args) {
     //fan slot 1,2,3

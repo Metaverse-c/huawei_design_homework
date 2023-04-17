@@ -1,4 +1,6 @@
-package org.example;
+package org.example.srv;
+
+import org.example.fan.SrvListener;
 
 public interface InSrv {
     int TEMPRATURE=30;

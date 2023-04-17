@@ -1,5 +1,7 @@
-package org.example;
-import java.util.ArrayList;
+package org.example.services;
+import org.example.fan.InFan;
+import org.example.srv.InSrv;
+import org.example.utils.FanCtlConfig;
 
 public class FanCtlAction {
     private InFanMgr mgr;
@@ -24,7 +26,7 @@ public class FanCtlAction {
         return false;
     }
     public boolean onTempChanged(int slot,int temp){
-        InSrv  srv= mgr.findSrvBoard(slot);
+        InSrv srv= mgr.findSrvBoard(slot);
         if(srv!=null){
             srv.onTempChanged(temp);
         }

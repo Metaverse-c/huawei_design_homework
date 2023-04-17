@@ -1,6 +1,11 @@
-package org.example;
+package org.example.srv;
 
-public class SrvFactory extends BoardFactory{
+import org.example.fan.InFan;
+import org.example.utils.BoardFactory;
+import org.example.utils.FanCtlConfig;
+import org.example.utils.SrvCtlConfig;
+
+public class SrvFactory extends BoardFactory {
     //单例模式
     private static SrvFactory instance=new SrvFactory();
 

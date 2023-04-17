@@ -1,4 +1,7 @@
-package org.example;
+package org.example.srv;
+import org.example.utils.SrvCtlConfig;
+import org.example.fan.SrvListener;
+
 import java.util.ArrayList;
 public class Srv implements InSrv{
     private int slot;

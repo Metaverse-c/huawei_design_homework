@@ -1,4 +1,6 @@
-package org.example;
+package org.example.fan;
+
+import org.example.srv.InSrv;
 
 public interface InFan {
     int TEMPERATURE=30;
