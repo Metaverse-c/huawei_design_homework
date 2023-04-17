@@ -1,16 +1,16 @@
 package org.example.drive;
 
-public class Mars implements HwDrive{
-    int speed;
+public class NeptAdaptor implements HwDrive{
+    Nept drive;
     @Override
     public int adjust(int speedmode) {
-        this.speed=speedmode;
+        this.drive.setSpeed(speedmode);
         return 0;
     }
 
     @Override
     public boolean isError() {
-        System.out.println("Mars Drive Adjust Error");
+        System.out.println("Adaptor Drive Adjust Error");
         return false;
     }
 }
