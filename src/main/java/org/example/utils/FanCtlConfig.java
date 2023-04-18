@@ -9,14 +9,17 @@ public class FanCtlConfig {
 
     private final ArrayList<SrvCtlConfig> srvs;
 
+    private String drivename;
+
     public FanCtlConfig(){
         srvs=new ArrayList<SrvCtlConfig>();
     }
-    public FanCtlConfig(int slot,int comtypes,int speeder){
+    public FanCtlConfig(int slot,int comtypes,int speeder,String drivename){
         srvs=new ArrayList<SrvCtlConfig>();
         this.slot=slot;
         this.comtypes=comtypes;
         this.speeder=speeder;
+        this.drivename=drivename;
     }
 
     public void addSrv(int slot,int temp){
@@ -57,5 +60,13 @@ public class FanCtlConfig {
 
     public ArrayList<SrvCtlConfig> getSrvs() {
         return srvs;
+    }
+
+    public String getDrivename() {
+        return drivename;
+    }
+
+    public void setDrivename(String drivename) {
+        this.drivename = drivename;
     }
 }

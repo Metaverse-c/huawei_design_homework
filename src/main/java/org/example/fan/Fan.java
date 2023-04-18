@@ -7,16 +7,22 @@ import org.example.srv.InSrv;
 import java.util.ArrayList;
 public class Fan implements InFan, SrvListener {
     private int slot;
-    private int comtypes;
+    private int comtypes;//工作模式 0-手动,1-自动;
     private int speedmode;
-
-    ArrayList<InSrv> srvs;
+    private Adaptor adapt;
+    private Strategy strategy;
+    private ArrayList<InSrv> srvs;
+    private ArrayList<FanBoxAdjust> childs;
 
     public Fan(FanCtlConfig cfg){
         slot=cfg.getSlot();
         comtypes =cfg.getComtypes();
         speedmode = cfg.getSpeeder();
+        String name= cfg.getDrivename();
+        adapt=new Adaptor(name,speedmode);
+        strategy=new AutoMode();
         srvs=new ArrayList<InSrv>();
+        childs=new ArrayList<>();
         ArrayList<SrvCtlConfig> temp=cfg.getSrvs();
         for(SrvCtlConfig conf:temp){
             InSrv a= SrvFactory.getInstance().getSrv(conf);
@@ -26,7 +32,7 @@ public class Fan implements InFan, SrvListener {
         System.out.println("srvs created successfully");
     }
 
-    //通知机制
+//1.观察者模式:通知机制
     @Override
     public boolean onSrvHot(int slot, int temp) {
         if(comtypes ==0){
@@ -49,7 +55,7 @@ public class Fan implements InFan, SrvListener {
         System.out.println("手动档，不调节温度");
         return true;
     }
-
+//2.风扇板通用接口实现
     @Override
     public boolean isMatched(int slot) {
         if(this.slot==slot){
@@ -61,13 +67,8 @@ public class Fan implements InFan, SrvListener {
 
     @Override
     public boolean manualAdjust(int speedmode) {
-        if(speedmode>=0&&speedmode<=5){
-            this.speedmode=speedmode;
-            System.out.println("change speedmode successfully");
-            return true;
-        }
-        System.out.println("fail to change speedmode");
-        return false;
+        adjust(speedmode);
+        return true;
     }
 
     @Override
@@ -92,4 +93,42 @@ public class Fan implements InFan, SrvListener {
         System.out.println("false srv slot");
         return null;
     }
+//3.组合模式
+    //3.1
+    @Override
+    public void add(FanBoxAdjust adjust) {
+        childs.add(adjust);
+    }
+
+    @Override
+    public void remove(FanBoxAdjust adjust) {
+        childs.remove(adjust);
+    }
+
+    @Override
+  //3.2调用驱动调速
+    public int adjust(int speed) {
+        adapt.adjust(speed);
+        if(childs.size()!=0){
+            for(FanBoxAdjust adjust:childs){
+                adjust.adjust(speed);
+            }
+        }
+        return 1;
+    }
+
+    @Override
+    public int adjust(String name, int speed) {
+        adapt.adjust(speed);
+        if(childs.size()!=0){
+            for(FanBoxAdjust adjust:childs){
+                adjust.adjust(name,speed);
+            }
+        }
+        return 1;
+    }
+    public boolean changeDrive(String name){
+        return adapt.addDrive(name);
+    }
+
 }

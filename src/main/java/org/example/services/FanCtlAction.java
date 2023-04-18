@@ -25,6 +25,11 @@ public class FanCtlAction {
         }
         return false;
     }
+    public boolean changeMode(int slot){
+        return false;
+    }
+
+
     public boolean onTempChanged(int slot,int temp){
         InSrv srv= mgr.findSrvBoard(slot);
         if(srv!=null){
