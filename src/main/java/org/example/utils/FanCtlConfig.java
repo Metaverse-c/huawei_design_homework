@@ -1,5 +1,7 @@
 package org.example.utils;
 
+import org.example.fan.FanBoxAdjust;
+
 import java.util.ArrayList;
 public class FanCtlConfig {
     private int slot;
@@ -8,6 +10,7 @@ public class FanCtlConfig {
     private int speeder;//0-5档
 
     private final ArrayList<SrvCtlConfig> srvs;
+    private FanBoxConfig childs;
 
     private String drivename;
 
@@ -20,6 +23,10 @@ public class FanCtlConfig {
         this.comtypes=comtypes;
         this.speeder=speeder;
         this.drivename=drivename;
+    }
+
+    public void setChilds(FanBoxConfig fanBoxConfig){
+        this.childs=fanBoxConfig;
     }
 
     public void addSrv(int slot,int temp){
@@ -60,6 +67,9 @@ public class FanCtlConfig {
 
     public ArrayList<SrvCtlConfig> getSrvs() {
         return srvs;
+    }
+    public FanBoxConfig getChilds(){
+        return childs;
     }
 
     public String getDrivename() {

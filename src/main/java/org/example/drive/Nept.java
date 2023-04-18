@@ -6,11 +6,11 @@ public class Nept implements Drive{
     private NetptuneStatus speed;
     private String name;
     public Nept(String name,int speed){
-        this.speed.setSpeed(speed);
+        this.speed=new NetptuneStatus(speed);
         this.name=name;
     }
     public Nept(String name){
-        speed.setSpeed(0);
+        this.speed=new NetptuneStatus(0);
         this.name=name;
     }
     public NetptuneStatus getSpeed(){

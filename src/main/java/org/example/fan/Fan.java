@@ -1,4 +1,5 @@
 package org.example.fan;
+import org.example.utils.FanBoxConfig;
 import org.example.utils.FanCtlConfig;
 import org.example.utils.SrvCtlConfig;
 import org.example.srv.SrvFactory;
@@ -9,10 +10,11 @@ public class Fan implements InFan, SrvListener {
     private int slot;
     private int comtypes;//工作模式 0-手动,1-自动;
     private int speedmode;
-    private Adaptor adapt;
-    private Strategy strategy;
+    private Adaptor adapt;//适配器模式
+    private Strategy strategy;//策略模式
     private ArrayList<InSrv> srvs;
-    private ArrayList<FanBoxAdjust> childs;
+    private ArrayList<FanBoxAdjust> childs;//组合模式
+    private ArrayList<Integer> childfans;
 
     public Fan(FanCtlConfig cfg){
         slot=cfg.getSlot();
@@ -21,18 +23,45 @@ public class Fan implements InFan, SrvListener {
         String name= cfg.getDrivename();
         adapt=new Adaptor(name,speedmode);
         strategy=new AutoMode();
-        srvs=new ArrayList<InSrv>();
-        childs=new ArrayList<>();
+//        srvs=new ArrayList<InSrv>();
+        FanBoxConfig boxconf=cfg.getChilds();
+        initChilds(boxconf);
         ArrayList<SrvCtlConfig> temp=cfg.getSrvs();
-        for(SrvCtlConfig conf:temp){
+        initSrvs(temp);
+//        for(SrvCtlConfig conf:temp){
+//            InSrv a= SrvFactory.getInstance().getSrv(conf);
+//            a.addListener(this);
+//            srvs.add(a);
+//        }
+
+    }
+    private void initChilds(FanBoxConfig cfg){
+        childs=new ArrayList<FanBoxAdjust>();
+        int number=cfg.getNumber();
+        childfans=cfg.getFanchild();
+        ArrayList<String> drives=cfg.getDrivenames();
+        for(String temp:drives){
+            FanBoxAdjust box=new FanBox(temp);
+            childs.add(box);
+        }
+    }
+
+    private void initSrvs(ArrayList<SrvCtlConfig> cfg){
+        srvs=new ArrayList<InSrv>();
+        for(SrvCtlConfig conf:cfg){
             InSrv a= SrvFactory.getInstance().getSrv(conf);
             a.addListener(this);
             srvs.add(a);
         }
-        System.out.println("srvs created successfully");
     }
 
-//1.观察者模式:通知机制
+    public ArrayList<Integer> getChildfans() {
+        return childfans;
+    }
+
+
+
+    //1.观察者模式:通知机制
     @Override
     public boolean onSrvHot(int slot, int temp) {
         if(comtypes ==0){
@@ -72,14 +101,17 @@ public class Fan implements InFan, SrvListener {
     }
 
     @Override
-    public boolean manualWorkMode(int workmode) {
-        if(workmode==0||workmode==1){
-            comtypes =workmode;
-            System.out.println("change workmode successfully");
-            return true;
+    public boolean manualWorkMode() {
+        if(comtypes==0){
+            comtypes =1;
+            strategy=new AutoMode();
+            System.out.println("change to automode");
+        }else{
+            comtypes =0;
+            strategy=new ManualMode();
+            System.out.println("change to manualmode");
         }
-        System.out.println("fail to change workmode");
-        return false;
+        return true;
     }
 
     @Override
@@ -127,6 +159,19 @@ public class Fan implements InFan, SrvListener {
         }
         return 1;
     }
+
+    @Override
+    public void showStructure() {
+        String a="(fan "+adapt.findDrive().getname()+")";
+        System.out.print(a);
+        if(childs.size()==0){
+            return;
+        }
+        for(FanBoxAdjust temp:childs){
+            temp.showStructure();
+        }
+    }
+
     public boolean changeDrive(String name){
         return adapt.addDrive(name);
     }

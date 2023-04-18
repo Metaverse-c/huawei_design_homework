@@ -6,5 +6,6 @@ public interface FanBoxAdjust {
     int adjust(int speed);
 
     int adjust(String name,int speed);
+    void showStructure();
 
 }

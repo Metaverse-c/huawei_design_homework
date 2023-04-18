@@ -13,12 +13,14 @@ public class Adaptor {
     }
 
     public Adaptor(String name){
+        drives=new ArrayList<Drive>();
         Drive temp=createDrive(name);
         drives.add(temp);
         pointer=0;
     }
 
     public Adaptor(String name,int speed){
+        drives=new ArrayList<Drive>();
         Drive temp=createDrive(name);
         temp.adjust(speed);
         drives.add(temp);
