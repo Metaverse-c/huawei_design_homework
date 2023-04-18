@@ -9,10 +9,10 @@ import org.example.utils.FanCtlConfig;
 
 public class Main {
     public static void main(String[] args) {
-    //fan slot 1,2,3,11,12,13,21,22,23
+    //fan slot 1,2,3,
     //fanbox
-    //srv slot 4,5,6,7,8,9,14,15,16,17,18,19,24,25,26,27,28,29
-    //1-4;2-5,6,7;3-7,8,9;11-14;12-15,16,17;13-17,18,19;21-24;22-25,26,27;23-27,28,29;
+    //srv slot 4,5,6,7,8,9
+    //1-4;2-5,6,7;3-7,8,9;
         FanCtlConfig fanCtlConfig1=new FanCtlConfig(1,0,0,"Mars");
         fanCtlConfig1.addSrv(4,0);
         FanCtlConfig fanCtlConfig2=new FanCtlConfig(2,0,0,"Venus");
@@ -65,6 +65,7 @@ public class Main {
         action.onTempChanged(4,31);
         action.onTempChanged(10,31);
         action.onTempChanged(6,4);
+        action.onTempChanged(9,101);
 
     }
 }

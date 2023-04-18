@@ -1,4 +1,5 @@
 package org.example.fan;
+import org.example.services.Alarm;
 import org.example.utils.FanBoxConfig;
 import org.example.utils.FanCtlConfig;
 import org.example.utils.SrvCtlConfig;
@@ -50,7 +51,9 @@ public class Fan implements InFan, SrvListener {
         srvs=new ArrayList<InSrv>();
         for(SrvCtlConfig conf:cfg){
             InSrv a= SrvFactory.getInstance().getSrv(conf);
+            Alarm alarm=Alarm.getInstance();
             a.addListener(this);
+            a.addListener(alarm);
             srvs.add(a);
         }
     }
